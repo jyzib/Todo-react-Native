@@ -1,93 +1,29 @@
-import {View,Text,Button,StyleSheet, TextInput,SafeAreaView} from "react-native"
-import { useState } from "react";
-const Home =()=>{
-    const [name,setName] = useState('')
-    const [data,setdata] = useState([])
-    
+import React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './Home';
+import Login from './Login';
+import Data from './Data';
+import About from './about';
 
-const handelsubmit = ()=>{
-    if(name){
-    const date = new Date().getMilliseconds()
-    setdata([...data,{id:date,name:name}])
-    setName("")
-    }
-   
-}
-const handeldelet = (l)=>{
-    const filterdata = data.filter((e)=>{
-        if(e.id !== l.id ){
-            return e
-        }
-      
+const Index = () => {
+  const Stack = createNativeStackNavigator();
 
-    })
-    setdata(filterdata)
-console.log(data)
-console.log(data.length)
-}
-    return(
-        <SafeAreaView style={style.contener}>
-  
-      <View style={style.addtodo} >
-        <TextInput 
-        onChangeText={(e)=>setName(e)}
-        placeholder="search"
-        value={name}
-        style={style.input}
-        />
-        <Button onPress={handelsubmit} title="Add Todo" />
-      </View>
-      {data.length < 1 && <Text>Please Write Some Todo</Text>}
-      <View>{data.map((e)=>{
-        return  <View style={style.alltodo} >
-            <Text>{e.name}{e.id}</Text>
-            <Button onPress={()=>handeldelet(e)} title="delete" />
-        </View>
-
-      })}
-        
-      </View>
-  
-        </SafeAreaView >
-    )
-}
-export default Home;
-
-
-const style =StyleSheet.create({
-   contener : {
- 
+  return (
 
       
-        alignItem:"center",
-        
-    },
-    button:{
-       padding:20
+        <NavigationContainer independent={true}>
+          <Stack.Navigator initialRouteName="login">
+            <Stack.Screen name="login" component={Data} />
+            <Stack.Screen name="home" component={Home} />
+            <Stack.Screen name="Data" component={Data} />
+            <Stack.Screen name="about" component={About} />
+          </Stack.Navigator>
+        </NavigationContainer>
 
-    },font:{
-        padding:10,
-   borderColor:"black",
-   borderWidth:2,
-   width:100,
-   marginTop:10,
-    },
-   
-    input:{
-        borderWidth:1,
-        padding:10,
-       width:"70%",
-        margin:10,
-    },
-    addtodo:{
-        flexDirection:"row"
-    },
-    alltodo :{
-        justifyContent:"space-around",
-        flexDirection:"row",
-        marginTop:20,
-        backgroundColor :"pink"
-    }
-    
+  
+  );
+};
 
-}) 
+export default Index;
